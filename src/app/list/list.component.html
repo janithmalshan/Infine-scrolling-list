@@ -1,6 +1,16 @@
-<p>list works!</p>
-<ul *ngIf="beers">
-  <li *ngFor="let beer of beers">
-    <p>{{beer.name}}</p>
-  </li>
-</ul>
+<div
+  class="main-wr"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="50"
+  (scrolled)="onScroll()"
+>
+  <ul *ngIf="beers">
+    <li *ngFor="let beer of beers" class="list-item">
+      <a routerLink="/detail/{{beer.id}}">
+        <p class="list-item__name">{{beer.name}}</p>
+        <p class="list-item__name">{{beer.id}}</p>
+      </a>
+    </li>
+  </ul>
+</div>
