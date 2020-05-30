@@ -5,7 +5,7 @@
   [infiniteScrollThrottle]="50"
   (scrolled)="onScroll()"
 >
-  <ul *ngIf="beers">
+  <ul>
     <li *ngFor="let beer of beers" class="list-item">
       <a routerLink="/detail/{{beer.id}}">
         <p class="list-item__name">{{beer.name}}</p>

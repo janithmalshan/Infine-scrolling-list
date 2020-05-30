@@ -6,13 +6,13 @@ import {DetailComponent} from './detail/detail.component';
 
 
 const routes: Routes = [
-  {path: '', component: ListComponent},
+  {path: '', pathMatch: 'full', redirectTo: '/list'},
+  {path: 'list', component: ListComponent},
   {path: 'detail/:id', component: DetailComponent}
 ];
 
-RouterModule.forRoot(routes, {scrollPositionRestoration: 'disabled'})
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'})],
   exports: [RouterModule]
 })
 

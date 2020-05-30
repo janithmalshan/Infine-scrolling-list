@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpService} from '../http.service';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-detail',
@@ -12,7 +13,8 @@ export class DetailComponent implements OnInit {
 
   beer$: object;
 
-  constructor(private httpService: HttpService, private route: ActivatedRoute) {
+  constructor(private httpService: HttpService, private route: ActivatedRoute,
+              private location: Location) {
     this.route.params.subscribe(params => this.beer$ = params.id);
   }
 
@@ -23,6 +25,10 @@ export class DetailComponent implements OnInit {
         console.log(this.beer$);
       }
     );
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 }
