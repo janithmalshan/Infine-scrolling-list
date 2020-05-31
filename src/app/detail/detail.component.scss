@@ -1,3 +1,4 @@
+// Detail view item style
 .list-item {
   display: flex;
   align-items: center;
@@ -46,5 +47,10 @@
       vertical-align: text-top;
       line-height: 17px;
     }
+  }
+  > button {
+    margin: 0 15px 0 0;
+    border: 0;
+    height: 150px;
   }
 }

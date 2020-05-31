@@ -6,57 +6,47 @@ import {HttpService} from '../http.service';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
+
 export class ListComponent implements OnInit {
 
-  beers;
-  notEmptyBeer = true;
-  notscrolly = true;
-  pageNumber = 1;
+  private beers;
+  private pageNumber: number;
 
-  // Create instance
   constructor(private httpService: HttpService) {
-    this.getBeers();
   }
 
-  ngOnInit() {
-  }
-
-  getBeers(): void {
+  public ngOnInit(): void {
     this.httpService.getBeerList().subscribe(data => {
       this.beers = data;
-      console.log(this.beers);
     });
-  }
-
-  onScroll() {
-    if (this.notscrolly && this.notEmptyBeer) {
-      this.notscrolly = false;
-
-      // Load next page on scrolling
-      this.loadNext(this.pageNumber);
+    this.pageNumber = this.httpService.getPageNumber();
+    if (this.pageNumber === undefined || null) {
+      this.pageNumber = 2;
     }
   }
 
-  loadNext(pageNumber) {
-    // return last beer from the array
-    /*const lastBeer = this.items[this.items.length - 1];
-    // get id of last beer
-    const lastBeerId = lastBeer.id;
-    // sent this id as key value pare using formdata()
-    const dataToSend = new FormData();
-    dataToSend.append('id', lastBeerId);*/
-    this.pageNumber = pageNumber + 1;
-    // call http request
-    this.httpService.getBeersNext(this.pageNumber, this.beers)
-      .subscribe((data: any) => {
-        const newBeer = data;
-        if (newBeer.length === 0) {
-          this.notEmptyBeer = false;
-        }
-        // add newly fetched beers to the existing beer
-        this.beers = this.beers.concat(newBeer);
-        this.notscrolly = true;
-      });
+  onScroll() {
+    this.loadNext(this.pageNumber);
   }
 
+  /**
+   * load Next BeerList
+   * and if all beers are listed
+   * call from the beginning
+   * @param pageNumber current page number
+   */
+  loadNext(pageNumber) {
+    this.pageNumber = pageNumber + 1;
+    this.httpService.getBeersNext(this.pageNumber, this.beers)
+      .subscribe((data: any) => {
+        let newBeer = data;
+        if (newBeer.length === 0) {
+          this.pageNumber = 2;
+          this.httpService.getBeerList().subscribe(oldData => {
+            newBeer = oldData;
+          });
+        }
+        this.beers = this.beers.concat(newBeer);
+      });
+  }
 }

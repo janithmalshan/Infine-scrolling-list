@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpService} from '../http.service';
-import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
 
@@ -13,6 +12,9 @@ export class DetailComponent implements OnInit {
 
   beer$: object;
 
+  /**
+   * Subscribe Single Beer Data
+   */
   constructor(private httpService: HttpService, private route: ActivatedRoute,
               private location: Location) {
     this.route.params.subscribe(params => this.beer$ = params.id);
@@ -22,11 +24,13 @@ export class DetailComponent implements OnInit {
     this.httpService.getBeer(this.beer$).subscribe(
       data => {
         this.beer$ = data[0];
-        console.log(this.beer$);
       }
     );
   }
 
+  /**
+   * Back to the list
+   */
   goBack(): void {
     this.location.back();
   }
