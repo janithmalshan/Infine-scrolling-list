@@ -1,0 +1,50 @@
+.list-item {
+  display: flex;
+  align-items: center;
+  width: 70%;
+  max-width: 800px;
+  margin: 5px auto;
+  text-align: left;
+  font-family: sans-serif;
+  &__img {
+    width: auto;
+    height: 250px;
+    margin: 30px 40px 20px 0;
+  }
+  &__name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #3f51b5;
+    margin: 0 auto;
+  }
+  &__date {
+    font-size: 16px;
+    font-weight: 700;
+    color: #6e6e6e;
+    margin: 8px auto;
+  }
+  &__desc {
+    font-size: 16px;
+    font-weight: 400;
+    color: #919191;
+    margin: 20px 0;
+  }
+  &__hint {
+    font-size: 15px;
+    font-weight: 400;
+    color: #7986cb;
+    margin: 0 auto;
+    > span {
+      border-radius: 20px;
+      background-color: #7986cb;
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 400;
+      color: #ffffff;
+      margin: 0 8px 0 0;
+      padding: 0 10px;
+      vertical-align: text-top;
+      line-height: 17px;
+    }
+  }
+}

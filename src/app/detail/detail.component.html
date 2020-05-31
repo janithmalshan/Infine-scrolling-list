@@ -1,6 +1,11 @@
 <div class="list-item">
   <button (click)="goBack()">go back</button>
-  Detail
-  <p class="list-item__name">{{ beer$.id }}</p>
-  <p class="list-item__name">{{ beer$.name }}</p>
+  <p>{{ beer$.id }}</p>
+  <img class="list-item__img" src="{{ beer$.image_url }}">
+  <div>
+    <p class="list-item__name">{{ beer$.name }}</p>
+    <p class="list-item__desc">{{ beer$.description }}</p>
+    <p class="list-item__date">First Brewed {{ beer$.first_brewed }}</p>
+    <p class="list-item__hint"><span>best with</span>{{ beer$.food_pairing }}</p>
+  </div>
 </div>
