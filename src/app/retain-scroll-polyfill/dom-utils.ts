@@ -1,21 +1,21 @@
-var WINDOW_SELECTOR = '__window__';
-var NG_ENCAPSULATION_PATTERN = /^_ng(host|content)\b/i;
+const WINDOW_SELECTOR = '__window__';
+const NG_ENCAPSULATION_PATTERN = /^_ng(host|content)\b/i;
 
 export type Target = Window | Element;
 
-// I provide a unified interface for dealing with scroll offsets across different types
-// of targets (elements vs. windows).
+/** Unified interface for scroll offsets across different types
+ * of targets (elements vs. windows).
+ */
 export class DomUtils {
 
-  // I determine if the target at the given selector exists in the active DOM.
+  /** Determine if the target at the given selector exists in the active DOM. */
   public exists(selector: string): boolean {
 
     return (!!this.select(selector));
 
   }
 
-
-  // I get the scroll-top of the given target in the active DOM.
+  /**  Get the scroll-top of the given target in the active DOM. */
   public getScrollTop(target: Target): number {
 
     if (target instanceof Window) {
@@ -31,16 +31,9 @@ export class DomUtils {
   }
 
 
-  // I return the CSS selector for the given target.
-  // --
-  // NOTE: The generated selector is intended to be consumed by this class only -
-  // it may not produce a valid CSS selector.
+  /**  Return the CSS selector for the given target. */
   public getSelector(target: Target): string | null {
 
-    // NOTE: I am breaking this apart because TypeScript was having trouble dealing
-    // with type-guard. I believe this is part of this bug:
-    // --
-    // https://github.com/Microsoft/TypeScript/issues/7271#issuecomment-360123191
     if (target instanceof Window) {
 
       return (WINDOW_SELECTOR);
@@ -54,13 +47,10 @@ export class DomUtils {
   }
 
 
-  // I get the scrollable target for the given "scroll" event.
-  // --
-  // NOTE: If you want to ignore (ie, not reinstate the scroll) of a particular type
-  // of DOM element, return NULL from this method.
+  /**  Get the scrollable target for the given "scroll" event. */
   public getTargetFromScrollEvent(event: Event): Target | null {
 
-    var node = event.target;
+    const node = event.target;
 
     if (node instanceof HTMLDocument) {
 
@@ -77,8 +67,9 @@ export class DomUtils {
   }
 
 
-  // I attempt to scroll the given target to the given scrollTop and return the
-  // resultant value presented by the target.
+  /**  Scroll the given target to the given scrollTop and
+   * return the result value presented by the target.
+   */
   public scrollTo(target: Target, scrollTop: number): number {
 
     if (target instanceof Window) {
@@ -100,7 +91,7 @@ export class DomUtils {
   }
 
 
-  // I return the target accessible at the given CSS selector.
+  /** Return the target accessible at the given CSS selector. */
   public select(selector: string): Target | null {
 
     if (selector === WINDOW_SELECTOR) {
@@ -115,30 +106,23 @@ export class DomUtils {
 
   }
 
-  // ---
-  // PRIVATE METHODS.
-  // ---
-
-  // I generate a CSS selector for the given target.
+  /** Generate a CSS selector for the given target. */
   private getSelectorForElement(target: Element): string | null {
-
-    // If the given element is not part of the active document, there's no way for us
-    // to calculate a selector for it.
     if (!document.body.contains(target)) {
 
       return (null);
 
     }
 
-    var selectors: string[] = [];
+    const selectors: string[] = [];
 
-    var current = <Node | null> target;
+    let current = target as Node | null;
 
     while (current && (current.nodeName !== 'BODY')) {
 
-      var selector = current.nodeName.toLowerCase();
+      let selector = current.nodeName.toLowerCase();
 
-      for (var attribute of Array.from((current as Element).attributes)) {
+      for (const attribute of Array.from((current as Element).attributes)) {
 
         if (attribute.name.search(NG_ENCAPSULATION_PATTERN) === 0) {
 
@@ -159,8 +143,7 @@ export class DomUtils {
   }
 
 
-  // I check to see if the given node is the root scrollable node - meaning, the node
-  // that is associated with the BODY scroll event.
+  /** Check the root scrollable node */
   private isRootScrollableNode(node: Node): boolean {
 
     return (node instanceof HTMLDocument);
